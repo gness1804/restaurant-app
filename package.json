@@ -7,7 +7,7 @@
   },
   "scripts": {
     "prod": "node ./start.js",
-    "watch": "nodemon ./start.js --ignore public/",
+    "watch": "nodemon --legacy-watch ./start.js --ignore public/",
     "clean": "npm cache verify && echo 'Cache cleaned.'",
     "dev": "npm run verifynode && npm run clean && concurrently \"npm run watch\" \"npm run assets\" --names \"💻,📦\" --prefix name",
     "assets": "webpack -w --display-max-modules 0",
