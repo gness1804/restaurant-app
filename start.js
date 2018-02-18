@@ -1,8 +1,4 @@
 const mongoose = require('mongoose');
-const verifyNode = require('./scripts/verifyNode');
-
-// Make sure we are running node 7.6+
-verifyNode();
 
 // import environmental variables from our variables.env file
 require('dotenv').config({ path: 'variables.env' });
