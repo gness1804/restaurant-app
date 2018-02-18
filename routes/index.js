@@ -7,6 +7,7 @@ router.get('/', (req, res) => {
     name: 'Lebron',
     age: 33,
     team: req.query.team || 'Cavs',
+    title: 'Now That\'s Delicious',
   });
 });
 
