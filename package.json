@@ -17,7 +17,7 @@
     "nuke": "npm run verifynode && npm run clean && rm -rf node_modules && npm install",
     "lint": "eslint controllers data handlers models routes",
     "fix": "npm run lint -- --fix",
-    "verifynode": "node ./scripts/callVerifyNode.js"
+    "verifynode": "node ./scripts/verifyNode.js"
   },
   "browserslist": "last 3 versions",
   "dependencies": {
