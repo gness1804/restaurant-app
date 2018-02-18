@@ -2,17 +2,12 @@ const express = require('express');
 
 const router = express.Router();
 
-// Do work here
 router.get('/', (req, res) => {
-  const bill = {
-    first: 'Bill',
-    last: 'Clinton',
-    party: 'Democrat',
-    children: [
-      'Chelsea',
-    ],
-  };
-  res.json(bill);
+  res.render('hello', {
+    name: 'Lebron',
+    age: 33,
+    team: req.query.team || 'Cavs',
+  });
 });
 
 module.exports = router;
