@@ -30,7 +30,7 @@ module.exports = {
     'no-plusplus': 'off',
     'max-len': 'off',
     'no-restricted-syntax': 'off',
-    // don't require .vue extension when importing
+    'no-path-concat': 'off',
     'import/extensions': ['error', 'always', {
       'js': 'never',
     }],
