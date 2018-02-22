@@ -3,3 +3,9 @@ exports.homePage = (req, res) => {
     user: 'Graham',
   });
 };
+
+exports.addStore = (req, res) => {
+  res.render('editStore', {
+    title: 'Add Store',
+  });
+};
