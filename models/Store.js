@@ -1,7 +1,7 @@
 const mongoose = require('mongoose');
 
 mongoose.Promise = global.Promise;
-const slug = require('slugs');
+const slugify = require('slugs');
 
 const storeSchema = new mongoose.Schema({
   name: {
@@ -22,7 +22,7 @@ storeSchema.pre('save', function (next) {
     next();
     return;
   }
-  this.slug = slug(this.name);
+  this.slug = slugify(this.name);
   next();
 });
 
