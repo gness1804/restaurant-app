@@ -9,3 +9,7 @@ exports.addStore = (req, res) => {
     title: 'Add Store',
   });
 };
+
+exports.createStore = (req, res) => {
+  res.json(req.body);
+};
