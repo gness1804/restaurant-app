@@ -1,11 +1,15 @@
-exports.firstMiddleware = (req, res, next) => {
-  req.name = 'Graham';
-  next();
+exports.homePage = (req, res) => {
+  res.render('index', {
+    user: 'Graham',
+  });
 };
 
-exports.homePage = (req, res) => {
-  console.log(`The user's name is ${req.name}.`);
-  res.render('index', {
-    user: req.name,
+exports.addStore = (req, res) => {
+  res.render('editStore', {
+    title: 'Add Store',
   });
+};
+
+exports.createStore = (req, res) => {
+  res.json(req.body);
 };
