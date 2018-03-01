@@ -31,6 +31,7 @@ module.exports = {
     'max-len': 'off',
     'no-restricted-syntax': 'off',
     'no-path-concat': 'off',
+    'no-underscore-dangle': 'off',
     'import/extensions': ['error', 'always', {
       'js': 'never',
     }],
