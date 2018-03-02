@@ -13,8 +13,29 @@ const storeSchema = new mongoose.Schema({
   description: {
     type: String,
     trim: true,
+    default: 'No description added. Add one now!',
   },
   tags: [String],
+  created: {
+    type: Date,
+    default: Date.now,
+  },
+  location: {
+    type: {
+      type: String,
+      default: 'Point',
+    },
+    coordinates: [
+      {
+        type: Number,
+        required: 'You must supply coordinates!',
+      },
+    ],
+    address: {
+      type: String,
+      required: 'You must supply an address!',
+    },
+  },
 });
 
 storeSchema.pre('save', function (next) {
