@@ -5,6 +5,9 @@ include mixins/_storeCard
 block content
   .inner
     h2 #{title}
-      .stores
-        each store in stores
-          +storeCard(store)
+      if stores.length > 0
+        .stores
+          each store in stores
+            +storeCard(store)
+      else
+        p There are no stores yet! Add one now.
