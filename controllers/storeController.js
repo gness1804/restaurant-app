@@ -1,4 +1,19 @@
 const mongoose = require('mongoose');
+const multer = require('multer');
+
+const multerOptions = {
+  storage: multer.memoryStorage(),
+  fileFilter(req, file, next) {
+    const isPhoto = file.mimetype.startsWith('image/');
+    if (isPhoto) {
+      next(null, true);
+    } else {
+      next({
+        message: 'File type not allowed. You must upload an image file.',
+      }, false);
+    }
+  },
+};
 
 const Store = mongoose.model('Store');
 
@@ -13,6 +28,8 @@ exports.addStore = (req, res) => {
     title: 'Add Store',
   });
 };
+
+exports.upload = multer(multerOptions).single('photo');
 
 exports.createStore = async (req, res) => {
   const store = await (new Store(req.body)).save();
