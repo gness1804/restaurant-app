@@ -1,4 +1,21 @@
 const mongoose = require('mongoose');
+const multer = require('multer');
+const jimp = require('jimp');
+const uuid = require('uuid');
+
+const multerOptions = {
+  storage: multer.memoryStorage(),
+  fileFilter(req, file, next) {
+    const isPhoto = file.mimetype.startsWith('image/');
+    if (isPhoto) {
+      next(null, true);
+    } else {
+      next({
+        message: 'File type not allowed. You must upload an image file.',
+      }, false);
+    }
+  },
+};
 
 const Store = mongoose.model('Store');
 
@@ -12,6 +29,21 @@ exports.addStore = (req, res) => {
   res.render('editStore', {
     title: 'Add Store',
   });
+};
+
+exports.upload = multer(multerOptions).single('photo');
+
+exports.resize = async (req, res, next) => {
+  if (!req.file) {
+    next();
+    return;
+  }
+  const ext = req.file.mimetype.split('/')[1];
+  req.body.photo = `${uuid.v4()}.${ext}`;
+  const photo = await jimp.read(req.file.buffer);
+  await photo.resize(800, jimp.AUTO);
+  await photo.write(`./public/uploads/${req.body.photo}`);
+  next();
 };
 
 exports.createStore = async (req, res) => {
@@ -45,4 +77,18 @@ exports.updateStore = async (req, res) => {
   }).exec();
   req.flash('success', `Successfully updated ${store.name}! <a href="/stores/${store.slug}">View Store</a>`);
   res.redirect(`/stores/${store._id}/edit`);
+};
+
+exports.getStoreBySlug = async (req, res, next) => {
+  const store = await Store.findOne({
+    slug: req.params.slug,
+  });
+  if (!store) {
+    next();
+    return;
+  }
+  res.render('store', {
+    store,
+    title: store.name,
+  });
 };
