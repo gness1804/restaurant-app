@@ -1,3 +1,4 @@
+const checkForDupes = require('../helpers/checkForDupes');
 const mongoose = require('mongoose');
 
 mongoose.Promise = global.Promise;
@@ -45,13 +46,7 @@ storeSchema.pre('save', async function (next) {
     return;
   }
   this.slug = slugify(this.name);
-  const slugRegex = new RegExp(`^(${this.slug})((-[0-9]*$)?)$`, 'i');
-  const storesWithSlug = await this.constructor.find({
-    slug: slugRegex,
-  });
-  if (storesWithSlug.length) {
-    this.slug = `${this.slug}-${storesWithSlug.length + 1}`;
-  }
+  this.slug = await checkForDupes(this.slug, this.constructor);
   next();
 });
 
