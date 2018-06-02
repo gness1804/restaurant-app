@@ -1,3 +1,4 @@
+const checkForDupes = require('../helpers/checkForDupes');
 const mongoose = require('mongoose');
 
 mongoose.Promise = global.Promise;
@@ -39,13 +40,35 @@ const storeSchema = new mongoose.Schema({
   photo: String,
 });
 
-storeSchema.pre('save', function (next) {
+storeSchema.pre('save', async function (next) {
   if (!this.isModified('name')) {
     next();
     return;
   }
   this.slug = slugify(this.name);
+  this.slug = await checkForDupes(this.slug, this.constructor);
   next();
 });
+
+storeSchema.statics.getTagsList = function () {
+  return this.aggregate([
+    {
+      $unwind: '$tags',
+    },
+    {
+      $group: {
+        _id: '$tags',
+        count: {
+          $sum: 1,
+        },
+      },
+    },
+    {
+      $sort: {
+        count: -1,
+      },
+    },
+  ]);
+};
 
 module.exports = mongoose.model('Store', storeSchema);
